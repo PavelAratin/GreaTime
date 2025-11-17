@@ -1,0 +1,25 @@
+.nav {
+  width: 870px;
+}
+.list {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.listItemTelephone {
+  margin-left: auto;
+}
+.navLink {
+  font-weight: 300;
+  font-size: 13px;
+  color: #333;
+  transition: all 0.2s linear;
+}
+.navLink:hover {
+  color: #4174cb;
+}
+.telephone {
+  font-weight: 400;
+  font-size: 18px;
+  color: #333;
+}

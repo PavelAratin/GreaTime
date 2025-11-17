@@ -1,0 +1,9 @@
+.logo {
+  font-family: var(--font-Orbitron);
+  font-weight: 400;
+  font-size: 25px;
+  color: #333;
+}
+.logoHeader {
+  margin-left: 161px;
+}
