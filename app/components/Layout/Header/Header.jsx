@@ -1,13 +1,12 @@
 import Link from "next/link";
-import Container from "../Container";
-import Nav from "../Nav";
-
 import styles from "./Header.module.css";
-import { Logo } from "../logo/Logo";
-import { WhatsAppIcon } from "../icons/WhatsAppIcon/WhatsAppIcon";
-import { TelegrammIcon } from "../icons/TelegrammIcon/TelegrammIcon";
-import { Button } from "../UI/Button";
-import { BurgerMenuIcon } from "../icons/BurgerMenuIcon/WhatsAppIcon";
+import Container from "../../UI/Container";
+import Nav from "../../Common/Nav";
+import { Button } from "../../UI/Button/Button";
+import { Logo } from "../../Common/logo/Logo";
+import { WhatsAppIcon } from "../../icons/WhatsAppIcon/WhatsAppIcon";
+import { TelegrammIcon } from "../../icons/TelegrammIcon/TelegrammIcon";
+import { BurgerMenuIcon } from "../../icons/BurgerMenuIcon/WhatsAppIcon";
 const Header = () => {
   return (
     <header>
