@@ -1,0 +1,13 @@
+.FormSearch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #4174cb;
+  border-radius: 2px;
+  padding: 0px 0px 0px 16px;
+  width: 717px;
+  height: 40px;
+  button {
+    border-radius: 0;
+  }
+}

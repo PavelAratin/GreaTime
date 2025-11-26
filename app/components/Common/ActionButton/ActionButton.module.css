@@ -1,0 +1,17 @@
+.ActionButton {
+  font-weight: 400;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: 0.2s linear;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  svg {
+    margin-bottom: 5px;
+  }
+}
+.ActionButton:hover {
+  opacity: 0.5;
+}

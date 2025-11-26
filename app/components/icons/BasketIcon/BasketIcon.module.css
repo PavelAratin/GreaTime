@@ -1,0 +1,4 @@
+.BasketIcon:hover {
+  transition: all 0.2s linear;
+  opacity: 0.5;
+}

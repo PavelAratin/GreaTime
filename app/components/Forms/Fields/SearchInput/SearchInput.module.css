@@ -1,0 +1,16 @@
+.searchInput {
+  width: 100%;
+  outline: none;
+}
+.searchInput::placeholder,
+.searchInput:focus::placeholder {
+  font-weight: 700;
+  font-size: 14px;
+  color: #828282;
+}
+.searchInput::-webkit-search-cancel-button,
+.searchInput::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+}

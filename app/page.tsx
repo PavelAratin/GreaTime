@@ -1,6 +1,9 @@
-import Header from "./components/Layout/Header";
+import Container from "./components/UI/Container";
+
 export default function Home() {
   return (
-    <Header></Header>
+    <section>
+      <Container>Главная страница</Container>
+    </section>
   );
 }
