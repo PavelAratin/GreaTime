@@ -1,17 +1,17 @@
+import styles from "./AuthPage.module.css";
 import Container from "@/app/components/UI/Container";
-import styles from "./LoginPage.module.css";
-import { FormLogin } from "@/app/components/Forms/FormLogin/FormLogin";
+import { AuthFormLayout } from "@/app/components/Forms/AuthFormLayout/AuthFormLayout";
 
-export const LoginPage = () => {
+export const AuthPage = () => {
   return (
-    <div className={styles.LoginPage}>
+    <div className={styles.AuthPage}>
       <Container>
-        <div className={styles.LoginPageInner}>
-          <FormLogin></FormLogin>
+        <div className={styles.AuthPageInner}>
+          <AuthFormLayout isLogin={true}></AuthFormLayout>
         </div>
       </Container>
     </div>
   );
 };
 
-export default LoginPage;
+export default AuthPage;

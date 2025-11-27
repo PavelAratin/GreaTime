@@ -1,4 +1,4 @@
-.FormLogin {
+.AuthFormLayout {
   border-radius: 8px;
   padding: 36px 24px;
   width: 428px;
@@ -12,14 +12,14 @@
     }
   }
 }
-.FormLoginHeader {
+.AuthFormLayoutHeader {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 50px;
   gap: 71px;
 }
-.FormLoginLink {
+.AuthFormLayoutLink {
   width: fit-content;
   padding: 16px;
   /* text-align: center; */
@@ -29,7 +29,7 @@
   position: relative;
   transition: all 0.2s linear;
 }
-.FormLoginLink.active::after {
+.AuthFormLayoutLink.active::after {
   content: '';
   display: block;
   width: 100%;
@@ -40,10 +40,10 @@
   left: 50%;
   transform: translate(-50%);
 }
-.FormLoginLink:hover {
+.AuthFormLayoutLink:hover {
   opacity: 0.5;
 }
-.FormLoginLink.active {
+.AuthFormLayoutLink.active {
   font-weight: 400;
   font-size: 18px;
 }
