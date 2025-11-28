@@ -1,14 +1,41 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
-import { EmailInput } from "../Fields/EmailInput/EmailInput";
-import { PasswordInput } from "../Fields/PasswordInput/PasswordInput";
 import styles from "./AuthFormLayout.module.css";
 import { Button } from "../../UI/Button/Button";
 import { AuthForm } from "../AuthForm/AuthForm";
-import { TextInput } from "../Fields/TextInput/TextInput";
-import { PhoneInput } from "../Fields/PhoneInput/PhoneInput";
+import { Input } from "../Fields/Input/Input";
 
 export const AuthFormLayout = ({ isLogin }) => {
-  console.log(isLogin);
+  const [formData, setFormData] = useState({
+    contactFIO: "", // ФИО контактного лица
+    contactPhone: "", // Телефон контактного лица
+    email: "", // E-mail организации
+    password: "", // Пароль (только для логина)
+    innOrganization: "", // ИНН организации
+  });
+  // 👇 Обработчик отправки
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("📦 ДАННЫЕ ФОРМЫ:", formData);
+
+    // // Здесь будет отправка на сервер
+    // if (isLogin) {
+    //   console.log("🚀 Отправляем данные ЛОГИНА:", {
+    //     email: formData.email,
+    //     password: formData.password,
+    //   });
+    // } else {
+    //   console.log("🚀 Отправляем данные РЕГИСТРАЦИИ:", formData);
+    // }
+  };
+  const inputChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   return (
     <div className={styles.AuthFormLayout}>
       <div className={styles.AuthFormLayoutHeader}>
@@ -39,21 +66,38 @@ export const AuthFormLayout = ({ isLogin }) => {
           </Link>
         </div>
       )}
-      <AuthForm>
-        {!isLogin && <TextInput placeholder="ФИО контактного лица"></TextInput>}
+      <AuthForm onSubmit={handleSubmit}>
         {!isLogin && (
-          <PhoneInput placeholder="Телефон контактного лица"></PhoneInput>
-        )}
-        <EmailInput
-          placeholder={
-            isLogin ? "Введите ваш E-mail" : "E-mail организации"
-          }></EmailInput>
-        {isLogin && (
-          <PasswordInput placeholder="Введите ваш пароль"></PasswordInput>
+          <Input
+            type="text"
+            placeholder="ФИО контактного лица"
+            name="contactFIO"
+            onChange={inputChangeHandler}></Input>
         )}
         {!isLogin && (
-          <TextInput placeholder="Инн организации" name="inn"></TextInput>
+          <Input
+            type="tel"
+            placeholder="Телефон контактного лица"
+            name="contactPhone"
+            onChange={inputChangeHandler}></Input>
         )}
+        <Input
+          type="email"
+          placeholder={isLogin ? "Введите ваш E-mail" : "E-mail организации"}
+          name="email"
+          onChange={inputChangeHandler}></Input>
+        {!isLogin && (
+          <Input
+            type="text"
+            placeholder="Инн организации"
+            name="innOrganization"
+            onChange={inputChangeHandler}></Input>
+        )}
+        <Input
+          type="password"
+          placeholder={isLogin ? "Введите ваш пароль" : "Задайте пароль"}
+          name="password"
+          onChange={inputChangeHandler}></Input>
         <Button type="submit">
           {isLogin ? "Войти на сайт" : "Зарегистрироваться"}
         </Button>
