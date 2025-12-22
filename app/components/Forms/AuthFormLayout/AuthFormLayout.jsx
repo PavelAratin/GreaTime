@@ -5,29 +5,35 @@ import styles from "./AuthFormLayout.module.css";
 import { Button } from "../../UI/Button/Button";
 import { AuthForm } from "../AuthForm/AuthForm";
 import { Input } from "../Fields/Input/Input";
+import { Modal } from "../../Modal/Modal";
 
 export const AuthFormLayout = ({ isLogin }) => {
   const [formData, setFormData] = useState({
-    contactFIO: "", // ФИО контактного лица
-    contactPhone: "", // Телефон контактного лица
+    fullName: "", // ФИО контактного лица
+    phone: "", // Телефон контактного лица
     email: "", // E-mail организации
     password: "", // Пароль (только для логина)
     innOrganization: "", // ИНН организации
+    userType: "legal",
   });
+  const [activeButtonUserType, setActiveButtonUserType] = useState("legal");
   // 👇 Обработчик отправки
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("📦 ДАННЫЕ ФОРМЫ:", formData);
-
-    // // Здесь будет отправка на сервер
-    // if (isLogin) {
-    //   console.log("🚀 Отправляем данные ЛОГИНА:", {
-    //     email: formData.email,
-    //     password: formData.password,
-    //   });
-    // } else {
-    //   console.log("🚀 Отправляем данные РЕГИСТРАЦИИ:", formData);
-    // }
+    try {
+      const response = await fetch("http://localhost:5000/auth/registration", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      console.log("✅ Ответ от сервера:", result);
+    } catch (error) {
+      console.log("❌ Ошибка при отправке:", error);
+    }
   };
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -36,6 +42,15 @@ export const AuthFormLayout = ({ isLogin }) => {
       [name]: value,
     }));
   };
+
+  const changeTypeUserHandler = (typeUser) => {
+    setActiveButtonUserType(typeUser);
+    setFormData((prev) => ({
+      ...prev,
+      userType: typeUser,
+    }));
+  };
+
   return (
     <div className={styles.AuthFormLayout}>
       <div className={styles.AuthFormLayoutHeader}>
@@ -56,43 +71,51 @@ export const AuthFormLayout = ({ isLogin }) => {
       </div>
       {!isLogin && (
         <div className={styles.AuthFormLayoutHeader}>
-          <Link className={styles.AuthFormLayoutLink} href="#">
+          <Button
+            className={`${styles.AuthFormLayoutLink} ${
+              activeButtonUserType === "individual" ? styles.active : ""
+            }`}
+            onClick={() => changeTypeUserHandler("individual")}>
             Физ.лицо
-          </Link>
-          <Link
-            className={`${styles.AuthFormLayoutLink} ${styles.active}`}
-            href="#">
+          </Button>
+          <Button
+            className={`${styles.AuthFormLayoutLink} ${
+              activeButtonUserType === "legal" ? styles.active : ""
+            }`}
+            onClick={() => changeTypeUserHandler("legal")}>
             Юр.лицо
-          </Link>
+          </Button>
         </div>
       )}
       <AuthForm onSubmit={handleSubmit}>
         {!isLogin && (
-          <Input
-            type="text"
-            placeholder="ФИО контактного лица"
-            name="contactFIO"
-            onChange={inputChangeHandler}></Input>
-        )}
-        {!isLogin && (
-          <Input
-            type="tel"
-            placeholder="Телефон контактного лица"
-            name="contactPhone"
-            onChange={inputChangeHandler}></Input>
+          <>
+            <Input
+              type="text"
+              placeholder="ФИО контактного лица"
+              name="fullName"
+              onChange={inputChangeHandler}></Input>
+            <Input
+              type="tel"
+              placeholder="Телефон контактного лица"
+              name="phone"
+              onChange={inputChangeHandler}></Input>
+            {activeButtonUserType === "legal" && (
+              <Input
+                type="text"
+                placeholder="ИНН организации (10 цифр)"
+                name="innOrganization"
+                value={formData.innOrganization}
+                onChange={inputChangeHandler}
+              />
+            )}
+          </>
         )}
         <Input
           type="email"
-          placeholder={isLogin ? "Введите ваш E-mail" : "E-mail организации"}
+          placeholder="Введите ваш E-mail"
           name="email"
           onChange={inputChangeHandler}></Input>
-        {!isLogin && (
-          <Input
-            type="text"
-            placeholder="Инн организации"
-            name="innOrganization"
-            onChange={inputChangeHandler}></Input>
-        )}
         <Input
           type="password"
           placeholder={isLogin ? "Введите ваш пароль" : "Задайте пароль"}

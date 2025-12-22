@@ -5,9 +5,13 @@ export const Button = ({
   children = null,
   className = "",
   type = "",
+  onClick,
 }) => {
   return (
-    <button type={type} className={`${styles.button} ${className}`}>
+    <button
+      type={type}
+      className={`${styles.button} ${className}`}
+      onClick={onClick}>
       {icon}
       {children}
     </button>
