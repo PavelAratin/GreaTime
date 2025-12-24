@@ -58,4 +58,11 @@
 body {
   font-family: var(--font-GTEestiProDisplay);
   font-weight: 400;
+  position: relative;
+}
+
+.titleH3 {
+  font-weight: 600;
+  font-size: 32px;
+  color: #000;
 }
