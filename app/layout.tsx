@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./components/Layout/Header";
+import LocalFont from "next/font/local";
+
+// const GTEestiProDisplayFont = LocalFont({
+//   src: "./../assets/fonts/GTEestiProDisplay/woff2/gteestiprodisplay_regular.woff2",
+//   weight: "400",
+// })
+
+const GTEestiProDisplayFont = LocalFont({
+  src: "./../assets/fonts/GTEestiProDisplay/woff2/gteestiprodisplay_regular.woff2",
+  weight: "400",
+})
 
 export const metadata: Metadata = {
   title: "GreaTime - интернет магазин спортиных товаров",
@@ -14,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body
+      <body className={`${GTEestiProDisplayFont.className}`}
       >
         <Header></Header>
         {children}

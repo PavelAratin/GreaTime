@@ -1,9 +1,9 @@
 @import 'tailwindcss';
-@font-face {
+/* @font-face {
   font-family: 'GT Eesti Pro Display';
   src:
-    url('/fonts/GTEestiProDisplay/woff2/gteestiprodisplay_light.woff2') format('woff2'),
-    url('/fonts/GTEestiProDisplay/woff/gteestiprodisplay_light.woff') format('woff');
+    url('../fonts/GTEestiProDisplay/woff2/gteestiprodisplay_light.woff2') format('woff2'),
+    url('../fonts/GTEestiProDisplay/woff/gteestiprodisplay_light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -12,8 +12,8 @@
 @font-face {
   font-family: 'GT Eesti Pro Display';
   src:
-    url('/fonts/GTEestiProDisplay/woff2/gteestiprodisplay_regular.woff2') format('woff2'),
-    url('/fonts/GTEestiProDisplay/woff/gteestiprodisplay_regular.woff') format('woff');
+    url('../fonts/GTEestiProDisplay/woff2/gteestiprodisplay_regular.woff2') format('woff2'),
+    url('../fonts/GTEestiProDisplay/woff/gteestiprodisplay_regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -22,8 +22,8 @@
 @font-face {
   font-family: 'GT Eesti Pro Display';
   src:
-    url('/fonts/GTEestiProDisplay/woff2/gteestiprodisplay_medium.woff2') format('woff2'),
-    url('/fonts/GTEestiProDisplay/woff/gteestiprodisplay_medium.woff') format('woff');
+    url('../fonts/GTEestiProDisplay/woff2/gteestiprodisplay_medium.woff2') format('woff2'),
+    url('../fonts/GTEestiProDisplay/woff/gteestiprodisplay_medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -32,31 +32,31 @@
 @font-face {
   font-family: 'GT Eesti Pro Display';
   src:
-    url('/fonts/GTEestiProDisplay/woff2/gteestiprodisplay_bold.woff2') format('woff2'),
-    url('/fonts/GTEestiProDisplay/woff/gteestiprodisplay_bold.woff') format('woff');
+    url('../fonts/GTEestiProDisplay/woff2/gteestiprodisplay_bold.woff2') format('woff2'),
+    url('../fonts/GTEestiProDisplay/woff/gteestiprodisplay_bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 /* ===== Orbitron ===== */
-@font-face {
+/* @font-face {
   font-family: 'Orbitron';
   src:
-    url('/fonts/Orbitron/woff2/Orbitron.woff2') format('woff2'),
-    url('/fonts/Orbitron/woff/Orbitron.woff') format('woff');
+    url('../fonts/Orbitron/woff2/Orbitron.woff2') format('woff2'),
+    url('../fonts/Orbitron/woff/Orbitron.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 /* ===== CSS переменные для удобства ===== */
-:root {
+/* :root {
   --font-GTEestiProDisplay: 'GT Eesti Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-Orbitron: 'Orbitron', monospace;
-}
+} */
 body {
-  font-family: var(--font-GTEestiProDisplay);
+  /* font-family: var(--font-GTEestiProDisplay); */
   font-weight: 400;
   position: relative;
 }

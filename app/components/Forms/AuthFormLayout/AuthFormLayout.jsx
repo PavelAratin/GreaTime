@@ -1,12 +1,17 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import styles from "./AuthFormLayout.module.css";
 import { Button } from "../../UI/Button/Button";
 import { AuthForm } from "../AuthForm/AuthForm";
 import { Input } from "../Fields/Input/Input";
 import { Modal } from "../../UI/Modal/Modal";
-import { SuccessRegistrationContent } from "../../Modals/SuccessRegistrationContent/SuccessRegistrationContent";
+import { RegistrationContent } from "../../Modals/RegistrationContent/RegistrationContent";
+import { API_URLS } from "@/app/constans/api";
+import { HTTP_METHODS } from "next/dist/server/web/http";
+import { USER_TYPES } from "@/app/constans/forms";
+import { AuthTabs } from "@/app/auth/components/AuthLinks/AuthLinks";
+import { RegistrationTypeSelector } from "@/app/auth/components/RegistrationTypeSelector/RegistrationTypeSelector";
+// import { AuthTabs } from "@/app/auth/components/AuthTabs/AuthTabs";
 
 export const AuthFormLayout = ({ isLogin }) => {
   const [formData, setFormData] = useState({
@@ -17,7 +22,9 @@ export const AuthFormLayout = ({ isLogin }) => {
     innOrganization: "", // ИНН организации
     userType: "legal",
   });
-  const [activeButtonUserType, setActiveButtonUserType] = useState("legal");
+  const [activeButtonUserType, setActiveButtonUserType] = useState(
+    USER_TYPES.LEGAL
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   // 👇 Обработчик отправки
@@ -25,8 +32,8 @@ export const AuthFormLayout = ({ isLogin }) => {
     e.preventDefault();
     console.log("📦 ДАННЫЕ ФОРМЫ:", formData);
     try {
-      const response = await fetch("http://localhost:5000/auth/registration", {
-        method: "POST",
+      const response = await fetch(API_URLS.REGISTRATION, {
+        method: HTTP_METHODS.POST,
         headers: {
           "Content-Type": "application/json",
         },
@@ -37,13 +44,34 @@ export const AuthFormLayout = ({ isLogin }) => {
       if (result.success) {
         setIsModalOpen(true);
         setModalContent({
-          type: "success",
-          title: "Регистрация пользователя",
-          content: <SuccessRegistrationContent></SuccessRegistrationContent>,
+          content: (
+            <RegistrationContent
+              type="success"
+              title={result.message}></RegistrationContent>
+          ),
+        });
+      } else {
+        setIsModalOpen(true);
+        setModalContent({
+          content: (
+            <RegistrationContent
+              type="error"
+              title={result.message}></RegistrationContent>
+          ),
         });
       }
     } catch (error) {
       console.log("❌ Ошибка при отправке:", error);
+      if (error.message.includes("GET/HEAD method cannot have body")) {
+        setIsModalOpen(true);
+        setModalContent({
+          content: (
+            <RegistrationContent
+              type="error"
+              title={error.message}></RegistrationContent>
+          ),
+        });
+      }
     }
   };
   const inputChangeHandler = (e) => {
@@ -68,84 +96,58 @@ export const AuthFormLayout = ({ isLogin }) => {
   };
 
   return (
-    <>
+    <div className={styles.AuthFormLayout}>
       <Modal isOpen={isModalOpen} onClose={closeModalHandlder}>
         {modalContent?.content}
       </Modal>
-      <div className={styles.AuthFormLayout}>
+      <AuthTabs isLogin={isLogin}></AuthTabs>
+      {!isLogin && (
         <div className={styles.AuthFormLayoutHeader}>
-          <Link
-            className={`${styles.AuthFormLayoutLink} ${
-              isLogin ? styles.active : ""
-            }`}
-            href="/auth/login">
-            Вход
-          </Link>
-          <Link
-            className={`${styles.AuthFormLayoutLink} ${
-              !isLogin ? styles.active : ""
-            }`}
-            href="/auth/registration">
-            Регистрация
-          </Link>
+          <RegistrationTypeSelector
+            onClickHandler={changeTypeUserHandler}
+            activeButtonUserType={
+              activeButtonUserType
+            }></RegistrationTypeSelector>
         </div>
+      )}
+      <AuthForm onSubmit={handleSubmit}>
         {!isLogin && (
-          <div className={styles.AuthFormLayoutHeader}>
-            <Button
-              className={`${styles.AuthFormLayoutLink} ${
-                activeButtonUserType === "individual" ? styles.active : ""
-              }`}
-              onClick={() => changeTypeUserHandler("individual")}>
-              Физ.лицо
-            </Button>
-            <Button
-              className={`${styles.AuthFormLayoutLink} ${
-                activeButtonUserType === "legal" ? styles.active : ""
-              }`}
-              onClick={() => changeTypeUserHandler("legal")}>
-              Юр.лицо
-            </Button>
-          </div>
-        )}
-        <AuthForm onSubmit={handleSubmit}>
-          {!isLogin && (
-            <>
+          <>
+            <Input
+              type="text"
+              placeholder="ФИО контактного лица"
+              name="fullName"
+              onChange={inputChangeHandler}></Input>
+            <Input
+              type="tel"
+              placeholder="Телефон контактного лица"
+              name="phone"
+              onChange={inputChangeHandler}></Input>
+            {activeButtonUserType === "legal" && (
               <Input
                 type="text"
-                placeholder="ФИО контактного лица"
-                name="fullName"
-                onChange={inputChangeHandler}></Input>
-              <Input
-                type="tel"
-                placeholder="Телефон контактного лица"
-                name="phone"
-                onChange={inputChangeHandler}></Input>
-              {activeButtonUserType === "legal" && (
-                <Input
-                  type="text"
-                  placeholder="ИНН организации (10 цифр)"
-                  name="innOrganization"
-                  value={formData.innOrganization}
-                  onChange={inputChangeHandler}
-                />
-              )}
-            </>
-          )}
-          <Input
-            type="email"
-            placeholder="Введите ваш E-mail"
-            name="email"
-            onChange={inputChangeHandler}></Input>
-          <Input
-            type="password"
-            placeholder={isLogin ? "Введите ваш пароль" : "Задайте пароль"}
-            name="password"
-            onChange={inputChangeHandler}></Input>
-          <Button type="submit">
-            {isLogin ? "Войти на сайт" : "Зарегистрироваться"}
-          </Button>
-        </AuthForm>
-      </div>
-    </>
+                placeholder="ИНН организации (10 цифр)"
+                name="innOrganization"
+                value={formData.innOrganization}
+                onChange={inputChangeHandler}
+              />
+            )}
+          </>
+        )}
+        <Input
+          type="email"
+          placeholder="Введите ваш E-mail"
+          name="email"
+          onChange={inputChangeHandler}></Input>
+        <Input
+          type="password"
+          placeholder={isLogin ? "Введите ваш пароль" : "Задайте пароль"}
+          name="password"
+          onChange={inputChangeHandler}></Input>
+        <Button type="submit">
+          {isLogin ? "Войти на сайт" : "Зарегистрироваться"}
+        </Button>
+      </AuthForm>
+    </div>
   );
 };
