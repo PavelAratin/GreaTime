@@ -12,7 +12,6 @@ export const RegistrationTypeSelector = ({
   activeButtonUserType,
   onClickHandler,
 }) => {
-  console.log(activeButtonUserType);
   return (
     <>
       <Button

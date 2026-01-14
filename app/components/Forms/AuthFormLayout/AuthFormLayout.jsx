@@ -27,10 +27,24 @@ export const AuthFormLayout = ({ isLogin }) => {
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+  const [errors, setErrors] = useState({});
   // 👇 Обработчик отправки
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("📦 ДАННЫЕ ФОРМЫ:", formData);
+    if (!validateForm()) {
+      // Показываем ошибку
+      setModalContent({
+        content: (
+          <RegistrationContent
+            type="error"
+            title="Пожалуйста, исправьте ошибки в форме"
+          />
+        ),
+      });
+      setIsModalOpen(true);
+      return;
+    }
+
     try {
       const response = await fetch(API_URLS.REGISTRATION, {
         method: HTTP_METHODS.POST,
@@ -40,7 +54,6 @@ export const AuthFormLayout = ({ isLogin }) => {
         body: JSON.stringify(formData),
       });
       const result = await response.json();
-      console.log("✅ Ответ от сервера:", result);
       if (result.success) {
         setIsModalOpen(true);
         setModalContent({
@@ -61,7 +74,6 @@ export const AuthFormLayout = ({ isLogin }) => {
         });
       }
     } catch (error) {
-      console.log("❌ Ошибка при отправке:", error);
       if (error.message.includes("GET/HEAD method cannot have body")) {
         setIsModalOpen(true);
         setModalContent({
@@ -80,6 +92,13 @@ export const AuthFormLayout = ({ isLogin }) => {
       ...prev,
       [name]: value,
     }));
+    const errorText = validateField(name, value);
+    console.log(errorText);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: errorText,
+    }));
+    console.log(errors);
   };
 
   const changeTypeUserHandler = (typeUser) => {
@@ -91,8 +110,29 @@ export const AuthFormLayout = ({ isLogin }) => {
   };
 
   const closeModalHandlder = () => {
-    console.log("закрыть окно");
     setIsModalOpen(false);
+  };
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "fullName":
+        if (/\d/.test(value)) {
+          return "Введите ФИО";
+        }
+        break;
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((fieldName) => {
+      const error = validateField(fieldName, formData[fieldName]);
+      if (error) {
+        newErrors[fieldName] = error;
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   return (

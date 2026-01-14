@@ -16,3 +16,18 @@
   -webkit-appearance: none;
   appearance: none;
 }
+.InputError .Input {
+  box-shadow: 0 2px 0 0 #fe5532;
+}
+.InputError .Input::placeholder {
+  color: #fe5532;
+}
+.InputErrorBox {
+  padding-top: 5px;
+  padding-bottom: 3px;
+  color: #fe5532;
+  display: none;
+}
+.InputError .InputErrorBox {
+  display: block;
+}
